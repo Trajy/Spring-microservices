@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: market-api
+
+server:
+  port: 8085
+
+eureka:
+  instance:
+    prefer-ip-address: true
