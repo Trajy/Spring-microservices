@@ -15,7 +15,11 @@ public class ApiGatewayConfig {
     @Bean
     public RouteLocator gatewayRouter(RouteLocatorBuilder builder) {
         Function<PredicateSpec, Buildable<Route>> function = predicateSpec -> {
-            return predicateSpec.path("/get").uri("http://httpbin.org:80");
+            return predicateSpec.path("/get")
+                    .filters(gatewayFilterSpec -> gatewayFilterSpec
+                            .addRequestHeader("Hello-header", "Hello-world")
+                    )
+                    .uri("http://httpbin.org:80");
         };
         return builder.routes()
                 .route(function)
