@@ -1,8 +1,0 @@
-spring:
-  config:
-    import: configserver:http://localhost:8888
-    on-profile: default, local
-  cloud:
-    config:
-      profile: common, local
-      name: api-gateway
