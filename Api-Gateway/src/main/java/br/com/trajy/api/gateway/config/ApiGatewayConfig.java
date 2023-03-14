@@ -18,6 +18,7 @@ public class ApiGatewayConfig {
             return predicateSpec.path("/get")
                     .filters(gatewayFilterSpec -> gatewayFilterSpec
                             .addRequestHeader("Hello-header", "Hello-world")
+                            .addRequestParameter("Hello-parameter", "Hello-world")
                     )
                     .uri("http://httpbin.org:80");
         };
