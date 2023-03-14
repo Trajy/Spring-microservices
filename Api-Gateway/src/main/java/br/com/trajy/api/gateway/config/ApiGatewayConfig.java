@@ -20,7 +20,8 @@ public class ApiGatewayConfig {
                         .addRequestParameter("Hello-parameter", "Hello-world")
                 )
                 .uri("http://httpbin.org:80");
-        Function<PredicateSpec, Buildable<Route>> loadBalancerFunction = predicateSpec -> predicateSpec.path("/products/**")
+        Function<PredicateSpec, Buildable<Route>> loadBalancerFunction = predicateSpec -> predicateSpec.path("/market-api/**")
+                .filters(gatewayFilterSpec -> gatewayFilterSpec.rewritePath("/market-api", ""))
                 .uri("lb://market-api");
         return builder.routes()
                 .route(function)
