@@ -8,3 +8,9 @@ server:
 eureka:
   instance:
     prefer-ip-address: true
+
+resilience4j:
+  retry:
+    instances:
+      profile-in-yml-file:
+        max-attempts: 5 #by default resilience4j will try 3 times
