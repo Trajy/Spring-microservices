@@ -15,4 +15,4 @@ resilience4j:
       profile-in-yml-file:
         max-attempts: 5 #by default resilience4j will try 3 times
         wait-duration: 2s
-
+        enable-exponential-backoff: true
