@@ -10,6 +10,15 @@ eureka:
     prefer-ip-address: true
 
 resilience4j:
+  bulkhead:
+    instances:
+      profile-in-yml-file:
+        max-concurrent-calls: 2 #max-concurrence-requests-that-end-point-annotated-with-this-profile-will-agree
+  ratelimiter:
+    instances:
+      profile-in-yml-file:
+        limit-for-period: 2 #max requests in limit-refresh-period
+        limit-refresh-period: 10s #period-for-wait
   retry:
     instances:
       profile-in-yml-file:
