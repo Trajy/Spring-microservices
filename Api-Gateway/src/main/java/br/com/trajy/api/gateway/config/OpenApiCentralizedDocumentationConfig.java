@@ -13,7 +13,6 @@ import org.springdoc.core.OpenAPIService;
 import org.springdoc.core.OperationService;
 import org.springdoc.core.SpringDocConfigProperties;
 import org.springdoc.core.SpringDocProviders;
-import org.springdoc.core.SwaggerUiConfigProperties;
 import org.springdoc.core.customizers.SpringDocCustomizers;
 import org.springdoc.webflux.api.MultipleOpenApiWebFluxResource;
 import org.springframework.beans.factory.ObjectFactory;
@@ -28,16 +27,16 @@ import java.util.List;
 @Configuration
 public class OpenApiCentralizedDocumentationConfig {
 
-    private static final String ROUTE_DEFINITION_ID_PREFIX = "ReactiveCompositeDiscoveryClient_";
+    private static final String ROUTE_DEFINITION_ID_UNSIUTABLE = "ReactiveCompositeDiscoveryClient_";
 
     @Bean
-    public List<GroupedOpenApi> getApiDocumentations(SwaggerUiConfigProperties swaggerUiConfigProperties, RouteDefinitionLocator routeDefinitionLocator) {
+    public List<GroupedOpenApi> getApiDocumentations(RouteDefinitionLocator routeDefinitionLocator) {
         log.info("Open Api Documentation Auto Configuration");
         List<GroupedOpenApi> groupedApiDocs = new ArrayList<>();
         routeDefinitionLocator.getRouteDefinitions().collectList().block().stream()
-                .filter(route -> contains(route.getId(), ROUTE_DEFINITION_ID_PREFIX))
+                .filter(route -> contains(route.getId(), ROUTE_DEFINITION_ID_UNSIUTABLE))
                 .forEach(route -> {
-                    final String apiName = lowerCase(remove(route.getId(), ROUTE_DEFINITION_ID_PREFIX));
+                    final String apiName = lowerCase(remove(route.getId(), ROUTE_DEFINITION_ID_UNSIUTABLE));
                     groupedApiDocs.add(GroupedOpenApi.builder().pathsToMatch("/".concat(apiName).concat("/**"))
                             .group(apiName).build()
                     );
@@ -51,7 +50,8 @@ public class OpenApiCentralizedDocumentationConfig {
                                                            ObjectFactory<OpenAPIService> defaultOpenAPIBuilder, AbstractRequestService requestBuilder,
                                                            GenericResponseService responseBuilder, OperationService operationParser,
                                                            SpringDocConfigProperties springDocConfigProperties,
-                                                           SpringDocProviders springDocProviders, SpringDocCustomizers springDocCustomizers) {
+                                                           SpringDocProviders springDocProviders, SpringDocCustomizers springDocCustomizers
+    ) {
         log.info("MultipleOpenApiWebFluxResource Bean Generated");
         return new MultipleOpenApiWebFluxResource(groupedOpenApis,
                 defaultOpenAPIBuilder, requestBuilder,
