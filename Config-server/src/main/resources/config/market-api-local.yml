@@ -3,6 +3,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/erp
     username: postgres
     password: postgres
+  sleuth:
+    sampler:
+      probability: 1.0
 
 eureka:
   client:
